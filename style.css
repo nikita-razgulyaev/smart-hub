@@ -11,6 +11,8 @@
     --regular: "Inter Regular";
     --medium: "Inter Medium";
     --semibold: "Inter SemiBold";
+    --circle-radius: 120;
+    --stroke-width: 20;
 }
 
 .dark {
@@ -45,9 +47,9 @@
 }
 
 body {
+    background-color: var(--main-bg);
     font-family: var(--regular), system-ui, "Segoe UI", Roboto, sans-serif;
     font-size: 20px;
-    background-color: var(--main-bg);
     color: var(--main-text);
     line-height: 1.2;
 }
@@ -59,17 +61,17 @@ body {
 
 h2 {
     font-family: var(--semibold);
-    font-size: 36px;
+    font-size: 1.8em;
 }
 
 h3 {
     font-family: var(--regular);
-    font-size: 36px;
+    font-size: 1.8em;
 }
 
 h4 {
     font-family: var(--light);
-    font-size: 24px;
+    font-size: 1.2em;
 }
 
 section,
@@ -79,7 +81,7 @@ footer {
 
 .section__title {
     width: max-content;
-    padding: 0 15px 10px 0;
+    padding: 0 15px 15px 0;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -171,7 +173,7 @@ main {
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(3, auto);
-    grid-template-rows: 390px;
+    gap: 60px;
 }
 
 .sensors__card {
@@ -200,7 +202,7 @@ main {
 }
 
 .sensors__card-title {
-    font-size: 24px;
+    font-size: 1.2em;
 }
 
 .sensors__card-update {
@@ -242,8 +244,6 @@ main {
 
 .circle-container {
     position: relative;
-    width: 250px;
-    height: 250px;
     flex-shrink: 0;
 }
 
@@ -265,14 +265,6 @@ main {
     transition: stroke-dashoffset 0.8s ease;
 }
 
-.progress-bar {
-    transition: stroke 0.3s ease;
-}
-
-.sensors__card.danger .progress-bar {
-    stroke: #ef4444;
-}
-
 .circle-value {
     position: absolute;
     top: 50%;
@@ -283,13 +275,13 @@ main {
 }
 
 .value {
-    font-size: 60px;
+    font-size: 3em;
     font-family: var(--semibold);
     color: var(--main-text);
 }
 
 .unit {
-    font-size: 20px;
+    font-size: 1em;
     font-family: var(--light);
     color: var(--main-text);
 }
@@ -317,6 +309,7 @@ canvas {
     justify-content: space-between;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: minmax(254px, auto);
+    gap: 60px;
 }
 
 .api__card {
@@ -342,10 +335,17 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
+}
+
+.api__card-icon-container svg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .api__card-title {
-    font-size: 24px;
+    font-size: 1.2em;
 }
 
 .api__card-source {
@@ -383,7 +383,7 @@ canvas {
     padding-left: 13px;
     background: transparent;
     font-family: var(--light);
-    font-size: 16px;
+    font-size: 0.8em;
     outline: none;
     color: var(--main-text);
 }
@@ -417,7 +417,7 @@ canvas {
 
 .api__card-temp {
     margin: 30px 0 0 5px;
-    font-size: 36px;
+    font-size: 1.8em;
     font-family: var(--semibold);
 }
 
@@ -435,7 +435,7 @@ canvas {
 
 .api__card-currency-name,
 .api__card-currency-price {
-    font-size: 24px;
+    font-size: 1.2em;
 }
 
 .api__card-author {
@@ -449,9 +449,294 @@ footer {
     border-top: var(--add-text) 1px solid;
 }
 
-.copyrihgts {
+.copyrights {
     text-align: center;
     font-family: var(--light);
-    font-size: 16px;
+    font-size: 0.8em;
     color: var(--add-text);
+}
+
+@media (max-width: 1024px) and (min-width: 320px) {
+    body {
+        font-size: 17px;
+    }
+    .container {
+        padding: 0 50px;
+    }
+    header {
+        height: 80px;
+    }
+    .header__logo {
+        gap: 17px;
+    }
+    .header__logo-img {
+        width: 50px;
+        height: 50px;
+    }
+    .header__date-and-theme {
+        gap: 42px;
+    }
+    main {
+        margin-top: 122px;
+    }
+    section,
+    footer {
+        margin-top: 42px;
+    }
+    .sensors__title-img {
+        width: 37px;
+        height: 37px;
+    }
+    .section__title {
+        width: fit-content;
+        padding: 0 13px 10px 0;
+        gap: 13px;
+    }
+    .section__title-text {
+        text-align: center;
+    }
+    .sensors__cards {
+        margin-top: 25px;
+        grid-template-columns: repeat(2, auto);
+        gap: 30px;
+    }
+    .sensors__card {
+        padding: 26px;
+        width: 447px;
+    }
+    .sensors__card-head {
+        gap: 13px;
+    }
+    .sensors__card-icon-container {
+        width: 45.5px;
+        height: 45.5px;
+    }
+    .sensors__card-icon {
+        width: 27.7px;
+        height: 27.7px;
+    }
+    .chart__title-img {
+        width: 34px;
+        height: 34px;
+    }
+    .sensors__card-update img {
+        width: 16px;
+        height: 16px;
+    }
+    .chart__card {
+        margin-top: 25px;
+        height: 530px;
+        padding: 28px 30px 20px 0;
+    }
+    .api__title-img {
+        width: 30px;
+        height: 30px;
+    }
+    .api__cards {
+        margin-top: 25px;
+        grid-template-columns: repeat(2, auto);
+        gap: 30px;
+    }
+    .api__card {
+        padding: 26px;
+        width: 447px;
+    }
+    .api__card-head {
+        gap: 13px;
+    }
+    .api__card-icon-container {
+        width: 46px;
+        height: 46px;
+    }
+    .api__card-icon {
+        width: 27.7px;
+        height: 27.7px;
+    }
+    footer {
+        padding: 25px 0;
+    }
+    .circle-container {
+        width: 223.5px;
+        height: 223.5px;
+    }
+    .progress-bg,
+    .progress-bar {
+        r: 120;
+        stroke-width: 16.79;
+    }
+}
+
+@media (max-width: 320px) {
+    body {
+        font-size: 13px;
+    }
+    .container {
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    header {
+        padding: 20px 0;
+        height: 163px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+    }
+    .header__logo {
+        gap: 9px;
+    }
+    .header__logo-img {
+        width: 30px;
+        height: 30px;
+    }
+    .header__date-and-theme {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+    }
+    .header__theme-toggle {
+        width: 60px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    .header__toggle-dark-theme,
+    .header__toggle-light-theme {
+        width: 28px;
+        height: 28px;
+        border-radius: 15px;
+    }
+    main {
+        margin-top: 190px;
+    }
+    section,
+    footer {
+        margin-top: 28px;
+    }
+    .sensors__title-img {
+        width: 34px;
+        height: 34px;
+    }
+    .section__title {
+        padding: 0 6px 6px 0;
+        gap: 9px;
+    }
+    .sensors__cards {
+        margin-top: 20px;
+        grid-template-columns: auto;
+        gap: 15px;
+    }
+    .sensors__card {
+        padding: 16px;
+        width: 280px;
+    }
+    .sensors__card-head {
+        gap: 9px;
+    }
+    .sensors__card-icon-container {
+        width: 28px;
+        height: 28px;
+    }
+    .sensors__card-icon {
+        width: 17px;
+        height: 17px;
+    }
+    .sensors__card-update img {
+        width: 11px;
+        height: 11px;
+    }
+    .circle-container {
+        margin: -22px 0 -2px 0;
+        width: 140px;
+        height: 140px;
+    }
+    .progress-bg,
+    .progress-bar {
+        r: 120;
+        stroke-width: 12;
+    }
+    .chart__title-img {
+        width: 25px;
+        height: 25px;
+    }
+    .api__title-img {
+        width: 20px;
+        height: 20px;
+    }
+    .api__cards {
+        margin-top: 20px;
+        grid-template-columns: auto;
+        gap: 15px;
+    }
+    .api__card {
+        padding: 16px;
+        width: 280px;
+    }
+    .api__card-head {
+        gap: 9px;
+    }
+    .api__card-icon-container {
+        width: 37px;
+        height: 37px;
+    }
+    .api__card-icon {
+        width: 22px;
+        height: 22px;
+    }
+    footer {
+        padding: 15px 0;
+    }
+}
+
+/* Адаптация SVG иконок в карточках API */
+.api__card-icon-container svg {
+    width: 30px;
+    height: 30px;
+}
+
+.currency-svg path,
+.quote-svg path {
+    transition: fill 0.3s ease;
+}
+
+@media (max-width: 1024px) and (min-width: 321px) {
+    .api__card-icon-container svg {
+        width: 27.7px;
+        height: 27.7px;
+    }
+}
+
+@media (max-width: 320px) {
+    .api__card-icon-container svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Адаптация текста легенды графика */
+@media (max-width: 1024px) and (min-width: 321px) {
+    canvas {
+        font-size: 17px;
+    }
+
+    /* Стили для легенды Chart.js */
+    .chart__card canvas {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 320px) {
+    canvas {
+        font-size: 14px;
+    }
+
+    /* Стили для легенды Chart.js */
+    .chart__card canvas {
+        font-size: 14px;
+    }
+
+    /* Дополнительная настройка легенды графика на мобильных */
+    .chart__card {
+        padding: 20px 15px 15px 5px;
+    }
 }

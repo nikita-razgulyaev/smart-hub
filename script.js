@@ -56,18 +56,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const MEM_MIN = 1.2,
         MEM_MAX = 16.0;
 
+    // Функция для получения текущего радиуса из CSS
+    function getCurrentRadius(progressEl) {
+        if (!progressEl) return 120;
+        // Пробуем получить вычисленный радиус из CSS
+        const computedStyle = window.getComputedStyle(progressEl);
+        const rValue = progressEl.getAttribute("r");
+        if (rValue) return parseFloat(rValue);
+        return 120;
+    }
+
+    // Функция для вычисления circumference на основе текущего радиуса
+    function getCircumference(progressEl) {
+        if (!progressEl) return 753.98;
+        const radius = getCurrentRadius(progressEl);
+        return 2 * Math.PI * radius;
+    }
+
     function updateProgress(id, value, min, max) {
         const percentage = Math.min(
             Math.max(((value - min) / (max - min)) * 100, 0),
             100,
         );
 
-        const circumference = 389.56;
-        const offset = circumference - (circumference * percentage) / 100;
-
         const progressEl = document.getElementById(`progress-${id}`);
         if (progressEl) {
+            const circumference = getCircumference(progressEl);
+            const offset = circumference - (circumference * percentage) / 100;
             progressEl.setAttribute("stroke-dashoffset", offset);
+
+            // Обновляем stroke-dasharray при изменении радиуса (для адаптива)
+            const currentDasharray =
+                progressEl.getAttribute("stroke-dasharray");
+            if (
+                !currentDasharray ||
+                parseFloat(currentDasharray) !== circumference
+            ) {
+                progressEl.setAttribute("stroke-dasharray", circumference);
+            }
+
             let color =
                 percentage <= 50
                     ? "#26DC35"
@@ -84,6 +111,59 @@ document.addEventListener("DOMContentLoaded", () => {
             else valueEl.textContent = value.toFixed(1);
         }
     }
+
+    // Функция для обновления stroke-dasharray при ресайзе (адаптив)
+    function updateAllDasharrays() {
+        const ids = ["cpu", "humidity", "memory"];
+        ids.forEach((id) => {
+            const progressEl = document.getElementById(`progress-${id}`);
+            if (progressEl) {
+                const circumference = getCircumference(progressEl);
+                progressEl.setAttribute("stroke-dasharray", circumference);
+
+                // Пересчитываем текущее значение
+                const valueEl = document.getElementById(`value-${id}`);
+                if (valueEl) {
+                    let currentValue;
+                    if (id === "cpu")
+                        currentValue = parseFloat(valueEl.textContent);
+                    else if (id === "humidity")
+                        currentValue = parseFloat(valueEl.textContent);
+                    else currentValue = parseFloat(valueEl.textContent);
+
+                    if (!isNaN(currentValue)) {
+                        let min, max;
+                        if (id === "cpu") {
+                            min = TEMP_MIN;
+                            max = TEMP_MAX;
+                        } else if (id === "humidity") {
+                            min = HUM_MIN;
+                            max = HUM_MAX;
+                        } else {
+                            min = MEM_MIN;
+                            max = MEM_MAX;
+                        }
+
+                        const percentage = Math.min(
+                            Math.max(
+                                ((currentValue - min) / (max - min)) * 100,
+                                0,
+                            ),
+                            100,
+                        );
+                        const offset =
+                            circumference - (circumference * percentage) / 100;
+                        progressEl.setAttribute("stroke-dashoffset", offset);
+                    }
+                }
+            }
+        });
+    }
+
+    // Следим за изменением размера экрана для обновления dasharray
+    window.addEventListener("resize", () => {
+        setTimeout(updateAllDasharrays, 100);
+    });
 
     function getRandom(min, max, decimals = 1) {
         return (Math.random() * (max - min) + min).toFixed(decimals) * 1;
@@ -112,6 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateTempAndHumidity, 2000);
     updateTempAndHumidity();
     updateMemory();
+
+    // Инициализация dasharray после загрузки
+    setTimeout(updateAllDasharrays, 50);
 
     document
         .getElementById("memory-update-link")
@@ -210,6 +293,28 @@ document.addEventListener("DOMContentLoaded", () => {
             },
         });
     }
+
+    function updateChartLegendFont() {
+        if (!cpuChart) return;
+
+        const screenWidth = window.innerWidth;
+        let legendFontSize = 20;
+
+        if (screenWidth <= 320) {
+            legendFontSize = 14;
+        } else if (screenWidth <= 1024) {
+            legendFontSize = 17;
+        }
+
+        cpuChart.options.plugins.legend.labels.font.size = legendFontSize;
+        cpuChart.update();
+    }
+
+    window.addEventListener("resize", () => {
+        setTimeout(updateChartLegendFont, 100);
+    });
+
+    setTimeout(updateChartLegendFont, 200);
 
     function initChartHistory() {
         chartLabels = [];
@@ -359,10 +464,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    updateQuote();
-
     setInterval(updateQuote, 5 * 60 * 1000);
 
     fetchCurrencies();
-    fetchQuote();
+    updateQuote();
 });
