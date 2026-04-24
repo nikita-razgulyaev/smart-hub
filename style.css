@@ -11,8 +11,6 @@
     --regular: "Inter Regular";
     --medium: "Inter Medium";
     --semibold: "Inter SemiBold";
-    --circle-radius: 120;
-    --stroke-width: 20;
 }
 
 .dark {
@@ -56,7 +54,7 @@ body {
 
 .container {
     width: 100%;
-    padding: 0 150px;
+    padding: 0 7.8vw;
 }
 
 h2 {
@@ -76,16 +74,17 @@ h4 {
 
 section,
 footer {
-    margin-top: 60px;
+    margin-top: 3vw;
 }
 
 .section__title {
-    width: max-content;
-    padding: 0 15px 15px 0;
+    width: fit-content;
+    padding: 0 0.7vw 0.7vw 0;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0.75vw;
     border-bottom: var(--accent) 1px solid;
+    text-align: center;
 }
 
 header {
@@ -94,7 +93,7 @@ header {
     left: 0;
     z-index: 100;
     width: 100%;
-    height: 100px;
+    height: 5.5vw;
     background-color: var(--main-bg);
     border-bottom: var(--accent) 1px solid;
     box-shadow: 0 5px 15px 0 var(--shadow);
@@ -106,19 +105,24 @@ header {
 .header__logo {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.05vw;
+}
+
+.header__logo-img {
+    width: 3vw;
+    height: 3vw;
 }
 
 .header__date-and-theme {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 2.6vw;
 }
 
 .header__datetime {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.25vw;
 }
 
 .header__date {
@@ -130,9 +134,9 @@ header {
 }
 
 .header__theme-toggle {
-    width: 80px;
-    height: 40px;
-    border-radius: 20px;
+    width: 5vw;
+    height: 2.5vw;
+    border-radius: 1.25vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -149,9 +153,9 @@ header {
 
 .header__toggle-dark-theme,
 .header__toggle-light-theme {
-    width: 38px;
-    height: 38px;
-    border-radius: 20px;
+    width: 2.4vw;
+    height: 2.4vw;
+    border-radius: 1.25vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -164,21 +168,31 @@ header {
     background-color: #ffffff;
 }
 
+.header__toggle-img {
+    width: 1.4vw;
+    height: 1.4vw;
+}
+
 main {
-    margin-top: 160px;
+    margin-top: 8.5vw;
+}
+
+.sensors__title-img {
+    width: 2.35vw;
+    height: 2.35vw;
 }
 
 .sensors__cards {
-    margin-top: 30px;
+    margin-top: 1.5vw;
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(3, auto);
-    gap: 60px;
+    gap: 3vw;
 }
 
 .sensors__card {
-    padding: 30px;
-    width: 500px;
+    padding: 1.5vw;
+    width: 25vw;
     height: 100%;
     border: var(--accent) 1px solid;
     border-radius: 15px;
@@ -188,7 +202,7 @@ main {
 .sensors__card-head {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0.8vw;
 }
 
 .sensors__card-icon-container {
@@ -274,6 +288,12 @@ main {
     line-height: 1;
 }
 
+.progress-bg,
+.progress-bar {
+    r: 120px;
+    stroke-width: 17px;
+}
+
 .value {
     font-size: 3em;
     font-family: var(--semibold);
@@ -284,6 +304,11 @@ main {
     font-size: 1em;
     font-family: var(--light);
     color: var(--main-text);
+}
+
+.chart__title-img {
+    width: 2vw;
+    height: 2vw;
 }
 
 canvas {
@@ -298,39 +323,44 @@ canvas {
     background: var(--main-bg);
     border: var(--accent) 1px solid;
     border-radius: 15px;
-    padding: 40px 50px 30px 10px;
+    padding: 2vw 2.6vw 1.5vw 0.5vw;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     position: relative;
 }
 
+.api__title-img {
+    width: 1.85vw;
+    height: 1.85vw;
+}
+
 .api__cards {
-    margin-top: 30px;
+    margin-top: 1.5vw;
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(3, auto);
-    grid-template-rows: minmax(254px, auto);
-    gap: 60px;
+    grid-template-rows: minmax(max-content, auto);
+    gap: 3vw;
 }
 
 .api__card {
-    padding: 30px;
-    width: 500px;
+    padding: 1.5vw;
+    width: 25vw;
     height: 100%;
     border: var(--accent) 1px solid;
     border-radius: 15px;
 }
 
 .api__card-head {
-    margin-bottom: 30px;
+    margin-bottom: 1.5vw;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1.5vw;
 }
 
 .api__card-icon-container {
     width: 50px;
     height: 50px;
-    border-radius: 25px;
+    border-radius: 50%;
     border: var(--accent) 1px solid;
     display: flex;
     justify-content: center;
@@ -339,9 +369,14 @@ canvas {
 }
 
 .api__card-icon-container svg {
-    max-width: 100%;
-    max-height: 100%;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
+}
+
+.currency-svg path,
+.quote-svg path {
+    transition: fill 0.3s ease;
 }
 
 .api__card-title {
@@ -416,7 +451,7 @@ canvas {
 }
 
 .api__card-temp {
-    margin: 30px 0 0 5px;
+    margin: 1.5vw 0 0 0.25vw;
     font-size: 1.8em;
     font-family: var(--semibold);
 }
@@ -445,7 +480,7 @@ canvas {
 }
 
 footer {
-    padding: 30px 0;
+    padding: 1.5vw 0;
     border-top: var(--add-text) 1px solid;
 }
 
@@ -456,12 +491,47 @@ footer {
     color: var(--add-text);
 }
 
-@media (max-width: 1024px) and (min-width: 320px) {
+/*Адаптив общий*/
+@media (min-width: 1901px) {
     body {
-        font-size: 17px;
+        font-size: 20px;
     }
+}
+@media (max-width: 1900px) and (min-width: 1601px) {
+    body {
+        font-size: 19px;
+    }
+}
+@media (max-width: 1600px) and (min-width: 1301px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media (max-width: 1300px) and (min-width: 1001px) {
+    body {
+        font-size: 15px;
+    }
+}
+@media (max-width: 1000px) and (min-width: 701px) {
+    body {
+        font-size: 14px;
+    }
+}
+@media (max-width: 700px) and (min-width: 401px) {
+    body {
+        font-size: 13px;
+    }
+}
+@media (max-width: 400px) {
+    body {
+        font-size: 12px;
+    }
+}
+
+/*Адаптив под планшет*/
+@media (max-width: 1024px) and (min-width: 321px) {
     .container {
-        padding: 0 50px;
+        padding: 0 4.88vw;
     }
     header {
         height: 80px;
@@ -498,11 +568,11 @@ footer {
     .sensors__cards {
         margin-top: 25px;
         grid-template-columns: repeat(2, auto);
-        gap: 30px;
+        gap: 2.92vw;
     }
     .sensors__card {
         padding: 26px;
-        width: 447px;
+        width: 43.65vw;
     }
     .sensors__card-head {
         gap: 13px;
@@ -515,13 +585,13 @@ footer {
         width: 27.7px;
         height: 27.7px;
     }
-    .chart__title-img {
-        width: 34px;
-        height: 34px;
-    }
     .sensors__card-update img {
         width: 16px;
         height: 16px;
+    }
+    .chart__title-img {
+        width: 34px;
+        height: 34px;
     }
     .chart__card {
         margin-top: 25px;
@@ -535,11 +605,11 @@ footer {
     .api__cards {
         margin-top: 25px;
         grid-template-columns: repeat(2, auto);
-        gap: 30px;
+        gap: 2.92vw;
     }
     .api__card {
         padding: 26px;
-        width: 447px;
+        width: 43.65vw;
     }
     .api__card-head {
         gap: 13px;
@@ -548,28 +618,36 @@ footer {
         width: 46px;
         height: 46px;
     }
-    .api__card-icon {
+    .api__card-icon-container svg {
         width: 27.7px;
         height: 27.7px;
+    }
+    .api__card-temp {
+        margin: 2.23vw 0 0 0.25vw;
     }
     footer {
         padding: 25px 0;
     }
-    .circle-container {
-        width: 223.5px;
-        height: 223.5px;
-    }
+}
+
+@media (max-width: 1024px) and (min-width: 751px) {
     .progress-bg,
     .progress-bar {
-        r: 120;
-        stroke-width: 16.79;
+        r: 120px;
+        stroke-width: 16px;
     }
 }
 
-@media (max-width: 320px) {
-    body {
-        font-size: 13px;
+@media (max-width: 750px) and (min-width: 651px) {
+    .progress-bg,
+    .progress-bar {
+        r: 100px;
+        stroke-width: 15px;
     }
+}
+
+/*Адаптив под мобильные устройства*/
+@media (max-width: 320px) {
     .container {
         padding: 0 20px;
         display: flex;
@@ -645,11 +723,6 @@ footer {
         width: 11px;
         height: 11px;
     }
-    .circle-container {
-        margin: -22px 0 -2px 0;
-        width: 140px;
-        height: 140px;
-    }
     .progress-bg,
     .progress-bar {
         r: 120;
@@ -658,6 +731,15 @@ footer {
     .chart__title-img {
         width: 25px;
         height: 25px;
+    }
+    canvas {
+        font-size: 14px;
+    }
+    .chart__card canvas {
+        font-size: 14px;
+    }
+    .chart__card {
+        padding: 20px 15px 15px 5px;
     }
     .api__title-img {
         width: 20px;
@@ -679,64 +761,11 @@ footer {
         width: 37px;
         height: 37px;
     }
-    .api__card-icon {
+    .api__card-icon-container svg {
         width: 22px;
         height: 22px;
     }
     footer {
         padding: 15px 0;
-    }
-}
-
-/* Адаптация SVG иконок в карточках API */
-.api__card-icon-container svg {
-    width: 30px;
-    height: 30px;
-}
-
-.currency-svg path,
-.quote-svg path {
-    transition: fill 0.3s ease;
-}
-
-@media (max-width: 1024px) and (min-width: 321px) {
-    .api__card-icon-container svg {
-        width: 27.7px;
-        height: 27.7px;
-    }
-}
-
-@media (max-width: 320px) {
-    .api__card-icon-container svg {
-        width: 22px;
-        height: 22px;
-    }
-}
-
-/* Адаптация текста легенды графика */
-@media (max-width: 1024px) and (min-width: 321px) {
-    canvas {
-        font-size: 17px;
-    }
-
-    /* Стили для легенды Chart.js */
-    .chart__card canvas {
-        font-size: 17px;
-    }
-}
-
-@media (max-width: 320px) {
-    canvas {
-        font-size: 14px;
-    }
-
-    /* Стили для легенды Chart.js */
-    .chart__card canvas {
-        font-size: 14px;
-    }
-
-    /* Дополнительная настройка легенды графика на мобильных */
-    .chart__card {
-        padding: 20px 15px 15px 5px;
     }
 }

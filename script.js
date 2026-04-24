@@ -56,17 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const MEM_MIN = 1.2,
         MEM_MAX = 16.0;
 
-    // Функция для получения текущего радиуса из CSS
     function getCurrentRadius(progressEl) {
         if (!progressEl) return 120;
-        // Пробуем получить вычисленный радиус из CSS
         const computedStyle = window.getComputedStyle(progressEl);
         const rValue = progressEl.getAttribute("r");
         if (rValue) return parseFloat(rValue);
         return 120;
     }
 
-    // Функция для вычисления circumference на основе текущего радиуса
     function getCircumference(progressEl) {
         if (!progressEl) return 753.98;
         const radius = getCurrentRadius(progressEl);
@@ -85,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const offset = circumference - (circumference * percentage) / 100;
             progressEl.setAttribute("stroke-dashoffset", offset);
 
-            // Обновляем stroke-dasharray при изменении радиуса (для адаптива)
             const currentDasharray =
                 progressEl.getAttribute("stroke-dasharray");
             if (
@@ -112,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Функция для обновления stroke-dasharray при ресайзе (адаптив)
     function updateAllDasharrays() {
         const ids = ["cpu", "humidity", "memory"];
         ids.forEach((id) => {
@@ -121,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 const circumference = getCircumference(progressEl);
                 progressEl.setAttribute("stroke-dasharray", circumference);
 
-                // Пересчитываем текущее значение
                 const valueEl = document.getElementById(`value-${id}`);
                 if (valueEl) {
                     let currentValue;
@@ -160,7 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Следим за изменением размера экрана для обновления dasharray
     window.addEventListener("resize", () => {
         setTimeout(updateAllDasharrays, 100);
     });
@@ -193,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTempAndHumidity();
     updateMemory();
 
-    // Инициализация dasharray после загрузки
     setTimeout(updateAllDasharrays, 50);
 
     document
