@@ -134,9 +134,9 @@ header {
 }
 
 .header__theme-toggle {
-    width: 5vw;
-    height: 2.5vw;
-    border-radius: 1.25vw;
+    width: 80px;
+    height: 40px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,9 +153,9 @@ header {
 
 .header__toggle-dark-theme,
 .header__toggle-light-theme {
-    width: 2.4vw;
-    height: 2.4vw;
-    border-radius: 1.25vw;
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -166,11 +166,6 @@ header {
 }
 .header__toggle-light-theme {
     background-color: #ffffff;
-}
-
-.header__toggle-img {
-    width: 1.4vw;
-    height: 1.4vw;
 }
 
 main {
