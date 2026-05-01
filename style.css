@@ -179,15 +179,16 @@ main {
 
 .sensors__cards {
     margin-top: 1.5vw;
+    width: 100%;
     display: grid;
     justify-content: space-between;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(3, 1fr);
     gap: 3vw;
 }
 
 .sensors__card {
     padding: 1.5vw;
-    width: 25vw;
+    width: 100%;
     height: 100%;
     border: var(--accent) 1px solid;
     border-radius: 15px;
@@ -245,7 +246,7 @@ main {
 }
 
 .sensor-content {
-    margin-top: 30px;
+    margin-top: 1.46vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -306,6 +307,10 @@ main {
     height: 2vw;
 }
 
+.chart-br {
+    display: none;
+}
+
 canvas {
     color: var(--main-text);
 }
@@ -330,16 +335,17 @@ canvas {
 
 .api__cards {
     margin-top: 1.5vw;
+    width: 100%;
     display: grid;
     justify-content: space-between;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: minmax(max-content, auto);
     gap: 3vw;
 }
 
 .api__card {
     padding: 1.5vw;
-    width: 25vw;
+    width: 100%;
     height: 100%;
     border: var(--accent) 1px solid;
     border-radius: 15px;
@@ -363,7 +369,8 @@ canvas {
     flex-shrink: 0;
 }
 
-.api__card-icon-container svg {
+.api__card-icon-container svg,
+.api__card-icon {
     width: 30px;
     height: 30px;
     object-fit: contain;
@@ -402,7 +409,7 @@ canvas {
     border: var(--add-text) 1px solid;
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -524,7 +531,7 @@ footer {
 }
 
 /*Адаптив под планшет*/
-@media (max-width: 1024px) and (min-width: 321px) {
+@media (max-width: 1024px) and (min-width: 481px) {
     .container {
         padding: 0 4.88vw;
     }
@@ -535,8 +542,8 @@ footer {
         gap: 17px;
     }
     .header__logo-img {
-        width: 50px;
-        height: 50px;
+        width: 4.88vw;
+        height: 4.88vw;
     }
     .header__date-and-theme {
         gap: 42px;
@@ -554,35 +561,22 @@ footer {
     }
     .section__title {
         width: fit-content;
-        padding: 0 13px 10px 0;
-        gap: 13px;
+        padding: 0 1.5vw 1vw 0;
+        gap: 1.5vw;
     }
     .section__title-text {
         text-align: center;
     }
     .sensors__cards {
         margin-top: 25px;
-        grid-template-columns: repeat(2, auto);
+        grid-template-columns: repeat(2, 1fr);
         gap: 2.92vw;
     }
     .sensors__card {
-        padding: 26px;
-        width: 43.65vw;
+        padding: 2.5vw;
     }
     .sensors__card-head {
         gap: 13px;
-    }
-    .sensors__card-icon-container {
-        width: 45.5px;
-        height: 45.5px;
-    }
-    .sensors__card-icon {
-        width: 27.7px;
-        height: 27.7px;
-    }
-    .sensors__card-update img {
-        width: 16px;
-        height: 16px;
     }
     .chart__title-img {
         width: 34px;
@@ -599,12 +593,11 @@ footer {
     }
     .api__cards {
         margin-top: 25px;
-        grid-template-columns: repeat(2, auto);
+        grid-template-columns: repeat(2, 1fr);
         gap: 2.92vw;
     }
     .api__card {
         padding: 26px;
-        width: 43.65vw;
     }
     .api__card-head {
         gap: 13px;
@@ -613,7 +606,8 @@ footer {
         width: 46px;
         height: 46px;
     }
-    .api__card-icon-container svg {
+    .api__card-icon-container svg,
+    .api__card-icon {
         width: 27.7px;
         height: 27.7px;
     }
@@ -625,26 +619,122 @@ footer {
     }
 }
 
-@media (max-width: 1024px) and (min-width: 751px) {
+@media (max-width: 1024px) and (min-width: 769px) {
+    .sensor-content {
+        margin-top: 2vw;
+    }
+    .sensors__card-icon-container {
+        width: 4.4vw;
+        height: 4.4vw;
+    }
+    .sensors__card-icon {
+        width: 2.63vw;
+        height: 2.63vw;
+    }
+    .sensors__card-update img {
+        width: 16px;
+        height: 16px;
+    }
     .progress-bg,
     .progress-bar {
-        r: 120px;
-        stroke-width: 16px;
+        r: 120;
+        stroke-width: 16;
+    }
+    .api__card-input {
+        height: 34px;
+    }
+    .api__card-input-field {
+        padding-left: 10px;
     }
 }
 
-@media (max-width: 750px) and (min-width: 651px) {
+@media (max-width: 768px) and (min-width: 560px) {
+    .sensor-content {
+        margin-top: 0.5vw;
+    }
+    .sensors__card-icon-container {
+        width: 5vw;
+        height: 5vw;
+    }
+    .sensors__card-icon {
+        width: 3vw;
+        height: 3vw;
+    }
+    .sensors__card-update img {
+        width: 15px;
+        height: 15px;
+    }
     .progress-bg,
     .progress-bar {
-        r: 100px;
-        stroke-width: 15px;
+        r: 100;
+        stroke-width: 14;
+    }
+    .api__card-icon-container {
+        width: 38px;
+        height: 38px;
+    }
+    .api__card-icon-container svg,
+    .api__card-icon {
+        width: 22px;
+        height: 22px;
+    }
+    .api__card-input {
+        height: 30px;
+    }
+    .api__card-input-field {
+        padding-left: 8px;
+    }
+}
+
+@media (max-width: 540px) {
+    .chart-br {
+        display: inline;
+    }
+}
+
+@media (max-width: 561px) and (min-width: 481px) {
+    .sensors__card-icon-container {
+        width: 6vw;
+        height: 6vw;
+    }
+    .sensors__card-icon {
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+    .sensors__card-update.--container {
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+    .sensors__card-update img {
+        width: 14px;
+        height: 14px;
+    }
+    .progress-bg,
+    .progress-bar {
+        r: 80;
+        stroke-width: 12;
+    }
+    .api__card-icon-container {
+        width: 36px;
+        height: 36px;
+    }
+    .api__card-icon-container svg,
+    .api__card-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .api__card-input {
+        height: 30px;
+    }
+    .api__card-input-field {
+        padding-left: 8px;
     }
 }
 
 /*Адаптив под мобильные устройства*/
-@media (max-width: 320px) {
+@media (max-width: 480px) {
     .container {
-        padding: 0 20px;
+        padding: 0 6.25vw;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -691,17 +781,17 @@ footer {
         height: 34px;
     }
     .section__title {
-        padding: 0 6px 6px 0;
-        gap: 9px;
+        width: fit-content;
+        padding: 0 2vw 1.5vw 0;
+        gap: 2vw;
     }
     .sensors__cards {
         margin-top: 20px;
-        grid-template-columns: auto;
+        grid-template-columns: 1fr;
         gap: 15px;
     }
     .sensors__card {
         padding: 16px;
-        width: 280px;
     }
     .sensors__card-head {
         gap: 9px;
@@ -720,8 +810,8 @@ footer {
     }
     .progress-bg,
     .progress-bar {
-        r: 120;
-        stroke-width: 12;
+        r: 100;
+        stroke-width: 14;
     }
     .chart__title-img {
         width: 25px;
@@ -742,25 +832,46 @@ footer {
     }
     .api__cards {
         margin-top: 20px;
-        grid-template-columns: auto;
+        grid-template-columns: 1fr;
         gap: 15px;
     }
     .api__card {
         padding: 16px;
-        width: 280px;
     }
     .api__card-head {
         gap: 9px;
     }
     .api__card-icon-container {
-        width: 37px;
-        height: 37px;
+        width: 32px;
+        height: 32px;
     }
-    .api__card-icon-container svg {
-        width: 22px;
-        height: 22px;
+    .api__card-icon-container svg,
+    .api__card-icon {
+        width: 18px;
+        height: 18px;
+    }
+    .api__card-input {
+        height: 30px;
+    }
+    .api__card-input-field {
+        padding-left: 8px;
     }
     footer {
         padding: 15px 0;
+    }
+}
+
+@media (max-width: 320px) {
+    .progress-bg,
+    .progress-bar {
+        r: 90;
+        stroke-width: 12;
+    }
+}
+
+@media (max-width: 260px) {
+    .progress-bg,
+    .progress-bar {
+        r: 80;
     }
 }
