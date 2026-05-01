@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isDark = !isDark;
         localStorage.setItem("theme", isDark ? "dark" : "light");
         applyTheme();
+        updateChartForTheme();
     });
 
     function updateDateTime() {
@@ -196,66 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let chartLabels = [];
     let chartDataPoints = [];
 
-    // function initCpuChart() {
-    //     const ctx = document.getElementById("cpu-chart");
-    //     cpuChart = new Chart(ctx, {
-    //         type: "line",
-    //         data: {
-    //             labels: chartLabels,
-    //             datasets: [
-    //                 {
-    //                     label: "Температура CPU (°C)",
-    //                     data: chartDataPoints,
-    //                     borderColor: "#3b82f6",
-    //                     backgroundColor: "transparent",
-    //                     borderWidth: 3,
-    //                     tension: 0,
-    //                     pointRadius: 5,
-    //                     pointHoverRadius: 8,
-    //                     pointBorderWidth: 2,
-    //                     pointBackgroundColor: "#fff",
-    //                 },
-    //             ],
-    //         },
-    //         options: {
-    //             responsive: true,
-    //             maintainAspectRatio: false,
-    //             plugins: {
-    //                 legend: {
-    //                     display: true,
-    //                     position: "top",
-    //                     labels: { font: { size: 20 } },
-    //                 },
-    //                 tooltip: {
-    //                     backgroundColor: "rgba(15, 23, 42, 0.95)",
-    //                     titleColor: "#94a5b7",
-    //                     bodyColor: "#94a5b7",
-    //                     borderColor: "#3b82f6",
-    //                     borderWidth: 1,
-    //                     callbacks: {
-    //                         label: (context) =>
-    //                             context.parsed.y.toFixed(1) + " °C",
-    //                     },
-    //                 },
-    //             },
-    //             scales: {
-    //                 y: {
-    //                     min: 30,
-    //                     max: 90,
-    //                     grid: { color: "#D9D9D9" },
-    //                     ticks: { color: "#94a5b7", font: { size: 14 } },
-    //                 },
-    //                 x: {
-    //                     grid: { color: "#D9D9D9" },
-    //                     ticks: {
-    //                         color: "#94a5b7",
-    //                         font: { size: 14, family: "var(--light)" },
-    //                     },
-    //                 },
-    //             },
-    //         },
-    //     });
-    // }
     function initCpuChart() {
         const ctx = document.getElementById("cpu-chart");
         cpuChart = new Chart(ctx, {
@@ -385,20 +326,32 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!cpuChart) return;
 
         const isDark = document.documentElement.classList.contains("dark");
+        const legendColor = isDark ? "#f1f5f9" : "#0f172a";
 
-        cpuChart.options.plugins.legend.labels.color = isDark
-            ? "#f1f5f9"
-            : "#0f172a";
+        if (cpuChart.options.plugins.legend.labels) {
+            cpuChart.options.plugins.legend.labels.color = legendColor;
+        }
+
+        if (cpuChart.options.scales) {
+            if (cpuChart.options.scales.y) {
+                cpuChart.options.scales.y.ticks.color = isDark
+                    ? "#94a5b7"
+                    : "#64748b";
+            }
+            if (cpuChart.options.scales.x) {
+                cpuChart.options.scales.x.ticks.color = isDark
+                    ? "#94a5b7"
+                    : "#64748b";
+            }
+        }
+
         cpuChart.update();
     }
-
-    toggleBtn.addEventListener("click", () => {
-        setTimeout(updateChartForTheme, 50);
-    });
 
     initChartHistory();
     initCpuChart();
     updateCpuChart();
+    updateChartForTheme();
     setInterval(updateCpuChart, 10000);
 
     const OPENWEATHER_API_KEY = "e72f58430f1f01f2392996e063393911";

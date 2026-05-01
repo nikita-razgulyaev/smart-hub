@@ -103,6 +103,11 @@ header {
     align-items: center;
 }
 
+.header__logo-link {
+    text-decoration: none;
+    color: var(--main-text);
+}
+
 .header__logo {
     display: flex;
     align-items: center;
