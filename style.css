@@ -324,8 +324,7 @@ canvas {
     background: var(--main-bg);
     border: var(--accent) 1px solid;
     border-radius: 15px;
-    padding: 2vw 2.6vw 1.5vw 0.5vw;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 0.5vw 3vw 2.5vw 2vw;
     position: relative;
 }
 
@@ -356,7 +355,7 @@ canvas {
     margin-bottom: 1.5vw;
     display: flex;
     align-items: center;
-    gap: 1.5vw;
+    gap: 0.8vw;
 }
 
 .api__card-icon-container {
@@ -453,8 +452,14 @@ canvas {
     cursor: pointer;
 }
 
+.api__card-temp,
+.api__card-currencys,
+.api__card-quote {
+    margin-left: 5px;
+}
+
 .api__card-temp {
-    margin: 1.5vw 0 0 0.25vw;
+    margin-top: 1.5vw;
     font-size: 1.8em;
     font-family: var(--semibold);
 }
@@ -496,8 +501,8 @@ footer {
 
 .critical-notification {
     position: fixed;
-    top: 100px;
-    right: 20px;
+    top: 6.05vw;
+    right: 0.55vw;
     background-color: #ef3030;
     color: white;
     padding: 16px 20px;
@@ -531,7 +536,6 @@ footer {
     line-height: 1.3;
 }
 
-/*Адаптив общий*/
 @media (min-width: 1901px) {
     body {
         font-size: 20px;
@@ -568,13 +572,15 @@ footer {
     }
 }
 
-/*Адаптив под планшет*/
+@media (min-width: 1500px) {
+    .chart__card {
+        padding: 0.5vw 2vw 2.5vw 2vw;
+    }
+}
+
 @media (max-width: 1024px) and (min-width: 481px) {
     .container {
         padding: 0 4.88vw;
-    }
-    header {
-        height: 80px;
     }
     .header__logo {
         gap: 17px;
@@ -585,9 +591,6 @@ footer {
     }
     .header__date-and-theme {
         gap: 42px;
-    }
-    main {
-        margin-top: 122px;
     }
     section,
     footer {
@@ -622,8 +625,7 @@ footer {
     }
     .chart__card {
         margin-top: 25px;
-        height: 530px;
-        padding: 28px 30px 20px 0;
+        height: 500px;
     }
     .api__title-img {
         width: 30px;
@@ -638,7 +640,7 @@ footer {
         padding: 26px;
     }
     .api__card-head {
-        gap: 13px;
+        margin-bottom: 2.5vw;
     }
     .api__card-icon-container {
         width: 46px;
@@ -650,14 +652,26 @@ footer {
         height: 27.7px;
     }
     .api__card-temp {
-        margin: 2.23vw 0 0 0.25vw;
+        margin-top: 2.4vw;
+    }
+    .api__card-currencys {
+        gap: 20px;
+    }
+    .api__card-currency {
+        gap: 30px;
     }
     footer {
-        padding: 25px 0;
+        padding: 2.44vw 0;
     }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
+    header {
+        height: 7.8vw;
+    }
+    main {
+        margin-top: 11.5vw;
+    }
     .sensor-content {
         margin-top: 2vw;
     }
@@ -684,9 +698,23 @@ footer {
     .api__card-input-field {
         padding-left: 10px;
     }
+    .api__card-input-btn img {
+        width: 21px;
+        height: 21px;
+    }
+    .critical-notification {
+        top: 9vw;
+        right: 1vw;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 560px) {
+    header {
+        height: 9.5vw;
+    }
+    main {
+        margin-top: 14vw;
+    }
     .sensor-content {
         margin-top: 0.5vw;
     }
@@ -722,6 +750,16 @@ footer {
     .api__card-input-field {
         padding-left: 8px;
     }
+    .critical-notification {
+        top: 10.5vw;
+        right: 1vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .api__card-head {
+        gap: 1.5vw;
+    }
 }
 
 @media (max-width: 540px) {
@@ -731,6 +769,12 @@ footer {
 }
 
 @media (max-width: 561px) and (min-width: 481px) {
+    header {
+        height: 12vw;
+    }
+    main {
+        margin-top: 17vw;
+    }
     .sensors__card-icon-container {
         width: 6vw;
         height: 6vw;
@@ -767,9 +811,12 @@ footer {
     .api__card-input-field {
         padding-left: 8px;
     }
+    .critical-notification {
+        top: 14vw;
+        right: 2vw;
+    }
 }
 
-/*Адаптив под мобильные устройства*/
 @media (max-width: 480px) {
     .container {
         padding: 0 6.25vw;
@@ -862,7 +909,8 @@ footer {
         font-size: 14px;
     }
     .chart__card {
-        padding: 20px 15px 15px 5px;
+        height: 300px;
+        padding: 0 3vw 2.5vw 2vw;
     }
     .api__title-img {
         width: 20px;
@@ -877,7 +925,7 @@ footer {
         padding: 16px;
     }
     .api__card-head {
-        gap: 9px;
+        margin-bottom: 4.16vw;
     }
     .api__card-icon-container {
         width: 32px;
@@ -894,10 +942,20 @@ footer {
     .api__card-input-field {
         padding-left: 8px;
     }
+    .api__card-temp {
+        margin-top: 3vw;
+    }
+    .api__card-currencys {
+        gap: 10px;
+    }
+    .api__card-currency {
+        gap: 20px;
+    }
     footer {
-        padding: 15px 0;
+        padding: 3.12vw 0;
     }
     .critical-notification {
+        top: 168px;
         right: 10px;
         left: 10px;
         min-width: auto;

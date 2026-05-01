@@ -196,6 +196,66 @@ document.addEventListener("DOMContentLoaded", () => {
     let chartLabels = [];
     let chartDataPoints = [];
 
+    // function initCpuChart() {
+    //     const ctx = document.getElementById("cpu-chart");
+    //     cpuChart = new Chart(ctx, {
+    //         type: "line",
+    //         data: {
+    //             labels: chartLabels,
+    //             datasets: [
+    //                 {
+    //                     label: "Температура CPU (°C)",
+    //                     data: chartDataPoints,
+    //                     borderColor: "#3b82f6",
+    //                     backgroundColor: "transparent",
+    //                     borderWidth: 3,
+    //                     tension: 0,
+    //                     pointRadius: 5,
+    //                     pointHoverRadius: 8,
+    //                     pointBorderWidth: 2,
+    //                     pointBackgroundColor: "#fff",
+    //                 },
+    //             ],
+    //         },
+    //         options: {
+    //             responsive: true,
+    //             maintainAspectRatio: false,
+    //             plugins: {
+    //                 legend: {
+    //                     display: true,
+    //                     position: "top",
+    //                     labels: { font: { size: 20 } },
+    //                 },
+    //                 tooltip: {
+    //                     backgroundColor: "rgba(15, 23, 42, 0.95)",
+    //                     titleColor: "#94a5b7",
+    //                     bodyColor: "#94a5b7",
+    //                     borderColor: "#3b82f6",
+    //                     borderWidth: 1,
+    //                     callbacks: {
+    //                         label: (context) =>
+    //                             context.parsed.y.toFixed(1) + " °C",
+    //                     },
+    //                 },
+    //             },
+    //             scales: {
+    //                 y: {
+    //                     min: 30,
+    //                     max: 90,
+    //                     grid: { color: "#D9D9D9" },
+    //                     ticks: { color: "#94a5b7", font: { size: 14 } },
+    //                 },
+    //                 x: {
+    //                     grid: { color: "#D9D9D9" },
+    //                     ticks: {
+    //                         color: "#94a5b7",
+    //                         font: { size: 14, family: "var(--light)" },
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //     });
+    // }
     function initCpuChart() {
         const ctx = document.getElementById("cpu-chart");
         cpuChart = new Chart(ctx, {
@@ -209,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         borderColor: "#3b82f6",
                         backgroundColor: "transparent",
                         borderWidth: 3,
-                        tension: 0,
+                        tension: 0.1,
                         pointRadius: 5,
                         pointHoverRadius: 8,
                         pointBorderWidth: 2,
@@ -224,7 +284,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     legend: {
                         display: true,
                         position: "top",
-                        labels: { font: { size: 20 } },
+                        align: "center",
+                        labels: {
+                            font: {
+                                size: 20,
+                                family: "var(--light)",
+                            },
+                            padding: 25,
+                            boxWidth: 45,
+                            boxHeight: 15,
+                            borderRadius: 3,
+                            color: "var(--main-text)",
+                            usePointStyle: false,
+                        },
                     },
                     tooltip: {
                         backgroundColor: "rgba(15, 23, 42, 0.95)",
@@ -308,6 +380,21 @@ document.addEventListener("DOMContentLoaded", () => {
             cpuChart.update("none");
         }
     }
+
+    function updateChartForTheme() {
+        if (!cpuChart) return;
+
+        const isDark = document.documentElement.classList.contains("dark");
+
+        cpuChart.options.plugins.legend.labels.color = isDark
+            ? "#f1f5f9"
+            : "#0f172a";
+        cpuChart.update();
+    }
+
+    toggleBtn.addEventListener("click", () => {
+        setTimeout(updateChartForTheme, 50);
+    });
 
     initChartHistory();
     initCpuChart();
