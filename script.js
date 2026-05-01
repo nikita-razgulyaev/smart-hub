@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getCurrentRadius(progressEl) {
         if (!progressEl) return 120;
-        const computedStyle = window.getComputedStyle(progressEl);
         const rValue = progressEl.getAttribute("r");
         if (rValue) return parseFloat(rValue);
         return 120;
@@ -118,13 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const valueEl = document.getElementById(`value-${id}`);
                 if (valueEl) {
-                    let currentValue;
-                    if (id === "cpu")
-                        currentValue = parseFloat(valueEl.textContent);
-                    else if (id === "humidity")
-                        currentValue = parseFloat(valueEl.textContent);
-                    else currentValue = parseFloat(valueEl.textContent);
-
+                    let currentValue = parseFloat(valueEl.textContent);
                     if (!isNaN(currentValue)) {
                         let min, max;
                         if (id === "cpu") {
@@ -170,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const humidity = getRandom(HUM_MIN, HUM_MAX, 0);
         updateProgress("humidity", humidity, HUM_MIN, HUM_MAX);
+
+        checkCriticalValues();
     }
 
     function updateMemory() {
@@ -180,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const timeStr = `${now.getHours()}:${now.getMinutes().toString().padStart(2, "0")}`;
         document.getElementById("memory-last-update").textContent =
             `Обновлено в ${timeStr}`;
+
+        checkCriticalValues();
     }
 
     setInterval(updateTempAndHumidity, 2000);
@@ -201,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initCpuChart() {
         const ctx = document.getElementById("cpu-chart");
-
         cpuChart = new Chart(ctx, {
             type: "line",
             data: {
@@ -228,18 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     legend: {
                         display: true,
                         position: "top",
-                        labels: {
-                            font: { size: 20 },
-                        },
+                        labels: { font: { size: 20 } },
                     },
                     tooltip: {
-                        enabled: true,
                         backgroundColor: "rgba(15, 23, 42, 0.95)",
                         titleColor: "#94a5b7",
                         bodyColor: "#94a5b7",
                         borderColor: "#3b82f6",
                         borderWidth: 1,
-                        displayColors: false,
                         callbacks: {
                             label: (context) =>
                                 context.parsed.y.toFixed(1) + " °C",
@@ -250,37 +242,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     y: {
                         min: 30,
                         max: 90,
-                        grid: {
-                            color: "#D9D9D9",
-                            lineWidth: 1,
-                        },
-                        ticks: {
-                            color: "#94a5b7",
-                            font: { size: 14 },
-                        },
+                        grid: { color: "#D9D9D9" },
+                        ticks: { color: "#94a5b7", font: { size: 14 } },
                     },
                     x: {
-                        grid: {
-                            color: "#D9D9D9",
-                            lineWidth: 1,
-                            drawOnChartArea: true,
-                        },
+                        grid: { color: "#D9D9D9" },
                         ticks: {
                             color: "#94a5b7",
-                            font: {
-                                size: 14,
-                                family: "var(--light)",
-                            },
-                            padding: 10,
-                            callback: function (value, index) {
-                                return chartLabels[index] || "";
-                            },
+                            font: { size: 14, family: "var(--light)" },
                         },
                     },
-                },
-                elements: {
-                    line: { tension: 0 },
-                    point: { radius: 5 },
                 },
             },
         });
@@ -288,31 +259,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateChartLegendFont() {
         if (!cpuChart) return;
-
         const screenWidth = window.innerWidth;
-        let legendFontSize = 20;
-
-        if (screenWidth <= 320) {
-            legendFontSize = 14;
-        } else if (screenWidth <= 1024) {
-            legendFontSize = 17;
-        }
-
+        let legendFontSize =
+            screenWidth <= 320 ? 14 : screenWidth <= 1024 ? 17 : 20;
         cpuChart.options.plugins.legend.labels.font.size = legendFontSize;
         cpuChart.update();
     }
 
-    window.addEventListener("resize", () => {
-        setTimeout(updateChartLegendFont, 100);
-    });
-
-    setTimeout(updateChartLegendFont, 200);
+    window.addEventListener("resize", () =>
+        setTimeout(updateChartLegendFont, 100),
+    );
 
     function initChartHistory() {
         chartLabels = [];
         chartDataPoints = [];
         const now = new Date();
-
         for (let i = 19; i >= 0; i--) {
             const past = new Date(now.getTime() - i * 10000);
             const label = past.toLocaleTimeString("ru-RU", {
@@ -358,20 +319,17 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchWeather(city = "Vologda") {
         const tempElement = document.getElementById("weather-temp");
         const input = document.getElementById("city-input");
-
         tempElement.textContent = "Загрузка...";
 
         try {
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=ru`,
             );
-
             if (!response.ok) {
                 tempElement.textContent =
                     response.status === 404 ? "Город не найден" : "Ошибка";
                 return;
             }
-
             const data = await response.json();
             tempElement.textContent = `${Math.round(data.main.temp)}°C`;
             input.placeholder = data.name || city;
@@ -416,16 +374,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ru`;
             const res = await fetch(url);
             const data = await res.json();
-
             if (
                 data.responseStatus === 200 &&
                 data.responseData?.translatedText
             ) {
                 return data.responseData.translatedText;
             }
-        } catch {
-            console.warn("Переводчик временно недоступен");
-        }
+        } catch {}
         return text;
     }
 
@@ -437,9 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             textEl.textContent = "Загрузка...";
             authorEl.textContent = "";
-
             const res = await fetch("https://dummyjson.com/quotes/random");
-            if (!res.ok) throw new Error("Ошибка загрузки цитаты");
             const data = await res.json();
 
             const [ruQuote, ruAuthor] = await Promise.all([
@@ -450,14 +403,85 @@ document.addEventListener("DOMContentLoaded", () => {
             textEl.textContent = ruQuote;
             authorEl.textContent = `— ${ruAuthor}`;
         } catch (err) {
-            console.error("Ошибка:", err);
             textEl.textContent = "Не удалось загрузить цитату";
-            authorEl.textContent = "";
         }
     }
 
     setInterval(updateQuote, 5 * 60 * 1000);
-
     fetchCurrencies();
     updateQuote();
+
+    let notificationTimeout = null;
+
+    function showCriticalNotification(message, type = "danger") {
+        const notification = document.getElementById("critical-notification");
+        const textEl = document.getElementById("notification-text");
+
+        if (!notification || !textEl) {
+            console.error("Элемент уведомления не найден в DOM!");
+            return;
+        }
+
+        textEl.textContent = message;
+        notification.className = `critical-notification ${type}`;
+        notification.style.display = "flex";
+        notification.style.opacity = "1";
+
+        if (notificationTimeout) clearTimeout(notificationTimeout);
+
+        notificationTimeout = setTimeout(() => {
+            hideNotification();
+        }, 3000);
+
+        notification.onclick = hideNotification;
+    }
+
+    function hideNotification() {
+        const notification = document.getElementById("critical-notification");
+        if (!notification) return;
+
+        notification.style.opacity = "0";
+        setTimeout(() => {
+            notification.style.display = "none";
+            notification.style.opacity = "1";
+        }, 300);
+
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+            notificationTimeout = null;
+        }
+    }
+
+    function checkCriticalValues() {
+        const cpuValue =
+            parseFloat(document.getElementById("value-cpu").textContent) || 0;
+        const humidityValue =
+            parseFloat(document.getElementById("value-humidity").textContent) ||
+            0;
+        const memoryValue =
+            parseFloat(document.getElementById("value-memory").textContent) ||
+            0;
+
+        if (cpuValue > 75) {
+            showCriticalNotification(
+                `Критическая температура CPU: ${cpuValue.toFixed(1)}°C!`,
+                "danger",
+            );
+        }
+
+        if (humidityValue < 25 || humidityValue > 55) {
+            const msg =
+                humidityValue < 25
+                    ? `Низкая влажность: ${Math.round(humidityValue)}%`
+                    : `Высокая влажность: ${Math.round(humidityValue)}%`;
+            showCriticalNotification(msg, "danger");
+        }
+
+        if (memoryValue > 14) {
+            showCriticalNotification(
+                `Критически заполнена память: ${memoryValue.toFixed(1)} ГБ!`,
+                "danger",
+            );
+        }
+    }
 });
