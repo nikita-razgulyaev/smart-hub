@@ -1,0 +1,28 @@
+# --- Dependencies ---
+node_modules/
+
+# --- Build output ---
+frontend/dist/
+*.tsbuildinfo
+
+# --- Tests / coverage ---
+coverage/
+frontend/coverage/
+
+# --- Env (на случай локальных переопределений) ---
+.env
+.env.local
+.env.*.local
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
