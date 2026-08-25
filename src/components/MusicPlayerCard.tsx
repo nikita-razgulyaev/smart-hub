@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMusicStore } from '../store/musicStore';
 import { MUSIC_TRACKS } from '../data/seedData';
+import { withBase } from '../utils/assetPath';
 
 const DEFAULT_VOLUME = 0.3;
 const INITIAL_FADE_START = 0.1;
@@ -163,7 +164,7 @@ export function MusicPlayerCard({ roomId }: { roomId: string }) {
     <div className="card music-card">
       <div className="music-art">
         {showCover ? (
-          <img src={track!.coverUrl!} alt={track?.title ?? ''} onError={() => setCoverMissing(true)} />
+          <img src={withBase(track!.coverUrl!)} alt={track?.title ?? ''} onError={() => setCoverMissing(true)} />
         ) : (
           '🎵'
         )}
@@ -213,7 +214,7 @@ export function MusicPlayerCard({ roomId }: { roomId: string }) {
       {track?.audioUrl && (
         <audio
           ref={audioRef}
-          src={track.audioUrl}
+          src={withBase(track.audioUrl)}
           onTimeUpdate={(e) => {
             if (!isSeeking) setPosition(e.currentTarget.currentTime);
           }}

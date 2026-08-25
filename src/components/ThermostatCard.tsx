@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Device } from '../types';
 import { useDevicesStore } from '../store/devicesStore';
+import { withBase } from '../utils/assetPath';
 
 export function ThermostatCard({ device }: { device: Device }) {
   const setState = useDevicesStore((s) => s.setState);
@@ -62,8 +63,8 @@ export function ThermostatCard({ device }: { device: Device }) {
       <div className={`thermo-mode-bar${showBar ? ' show' : ''}${modeClass}`}>
         <div className="thermo-mode-inner">
           <span className="thermo-mode-icon">
-            <img className="icon-heat" src="/images/heater.png" alt="Нагрев" />
-            <img className="icon-cool" src="/images/air-conditioner.png" alt="Охлаждение" />
+            <img className="icon-heat" src={withBase('/images/heater.png')} alt="Нагрев" />
+            <img className="icon-cool" src={withBase('/images/air-conditioner.png')} alt="Охлаждение" />
           </span>
           <span className="thermo-mode-text">{modeLabel}</span>
         </div>

@@ -2,6 +2,7 @@ import { useThemeStore } from '../store/themeStore';
 import { useDevicesStore } from '../store/devicesStore';
 import { ROOM_IMAGES, STREET_IMAGES } from '../data/seedData';
 import { Device } from '../types';
+import { withBase } from '../utils/assetPath';
 
 interface Props {
   title: string;
@@ -15,7 +16,7 @@ export function CameraCard({ title, variant = 'street', roomSlug, device }: Prop
   const toggle = useDevicesStore((s) => s.toggle);
 
   const images = variant === 'street' ? STREET_IMAGES : (roomSlug && ROOM_IMAGES[roomSlug]) || STREET_IMAGES;
-  const src = isDark ? images.night : images.day;
+  const src = withBase(isDark ? images.night : images.day);
   const isOn = device ? device.isOn : true;
 
   return (

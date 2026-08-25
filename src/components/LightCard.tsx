@@ -1,5 +1,6 @@
 import { Device } from '../types';
 import { useDevicesStore } from '../store/devicesStore';
+import { withBase } from '../utils/assetPath';
 
 export function LightCard({ device }: { device: Device }) {
   const setState = useDevicesStore((s) => s.setState);
@@ -25,7 +26,7 @@ export function LightCard({ device }: { device: Device }) {
       </div>
 
       <div className="lamp-stage">
-        <img src="/images/lamp.png" alt="Pendant lamp" />
+        <img src={withBase('/images/lamp.png')} alt="Pendant lamp" />
         <div className="lamp-cone" style={{ ['--b' as string]: brightness / 100 }} />
       </div>
 
