@@ -65,6 +65,7 @@ async function fetchWeather(city: string): Promise<WeatherInfo> {
     city: place.name,
     temp: Math.round(data.current?.temperature_2m),
     description: WMO_CODES[code] ?? '',
+    code,
     source: 'open-meteo',
   };
 }

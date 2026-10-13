@@ -1,10 +1,13 @@
+import type { CSSProperties } from 'react';
 import { Device } from '../types';
 import { useDevicesStore } from '../store/devicesStore';
 import { withBase } from '../utils/assetPath';
+import { Ring } from './ui/Ring';
+import { Slider } from './ui/Slider';
+import { Switch } from './ui/Switch';
 
 export function LightCard({ device }: { device: Device }) {
   const setState = useDevicesStore((s) => s.setState);
-  const toggle = useDevicesStore((s) => s.toggle);
   const brightness = Number(device.state.brightness ?? 0);
 
   const toggleOn = () => {
@@ -17,32 +20,28 @@ export function LightCard({ device }: { device: Device }) {
   };
 
   return (
-    <div className="card light-card" style={{ height: '100%' }}>
-      <div className="device-top">
-        <span className="title-sm">Свет</span>
-        <div className={`switch${device.isOn ? ' on' : ''}`} onClick={toggleOn}>
-          <div className="dot" />
-        </div>
+    <div className="card device">
+      <div className="device__head">
+        <span className="text-title">Свет</span>
+        <Switch checked={device.isOn} onChange={toggleOn} label="Свет" />
       </div>
 
-      <div className="lamp-stage">
-        <img src={withBase('/images/lamp.png')} alt="Pendant lamp" />
-        <div className="lamp-cone" style={{ ['--b' as string]: brightness / 100 }} />
+      <div className="light__stage">
+        <img className="light__lamp" src={withBase('/images/lamp.png')} alt="" />
+        <div className="light__cone" style={{ ['--brightness' as string]: brightness / 100 } as CSSProperties} />
       </div>
 
-      <div className="arc" style={{ ['--bp' as string]: brightness }}>
-        <div className="arc-inner">
-          <div className="pct">{brightness}%</div>
-          <div className="sub">Яркость</div>
-        </div>
-      </div>
+      <Ring value={brightness} size={96} strokeWidth={8}>
+        <span className="light__percent">{brightness}%</span>
+        <span className="light__percent-label">Яркость</span>
+      </Ring>
 
-      <input
-        type="range"
-        min={0}
-        max={100}
+      <Slider
+        className="light__slider"
         value={brightness}
-        onChange={(e) => setBrightness(Number(e.target.value))}
+        max={100}
+        label="Яркость света"
+        onChange={setBrightness}
       />
     </div>
   );

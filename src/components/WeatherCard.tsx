@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getWeather } from '../api/external';
 import { WeatherInfo } from '../types';
+import { weatherIconName } from '../utils/weatherIcon';
+import { Icon } from './ui/Icon';
 
 export function WeatherCard() {
   const [city, setCity] = useState('Вологда');
@@ -40,27 +42,28 @@ export function WeatherCard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const iconName = weather?.temp !== undefined && weather.temp < -2 && weather.code === undefined ? 'cloudSnow' : weatherIconName(weather?.code);
+
   return (
-    <div className="card weather-main">
-      <div className="top">
+    <div className="card weather">
+      <div className="weather__top">
         <div>
-          <div className="label">Погода</div>
-          <div className="temp">{weather ? `${weather.temp}°` : '—°'}</div>
+          <div className="text-label">Погода</div>
+          <div className="weather__temp">{weather ? `${weather.temp}°` : '—°'}</div>
         </div>
-        <span style={{ fontSize: 30 }}>{weather?.temp !== undefined && weather.temp < 0 ? '❄️' : '☀️'}</span>
+        <span className="weather__icon">
+          <Icon name={iconName} size={24} />
+        </span>
       </div>
 
-      {error && (
-        <div className="label" style={{ color: 'var(--down)' }}>
-          {error}
-        </div>
-      )}
-      {weather?.description && <div className="label">{weather.description}</div>}
+      {error && <div className="text-label weather__error">{error}</div>}
+      {weather?.description && <div className="text-label">{weather.description}</div>}
 
-      <div className={`city-edit${editing ? ' editing' : ''}`}>
-        {!editing && <span className="val">{city}</span>}
+      <div className="weather__city">
+        {!editing && <span>{city}</span>}
         {editing && (
           <input
+            className="weather__input"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => {
@@ -71,18 +74,20 @@ export function WeatherCard() {
             }}
             autoFocus
             placeholder="Город"
+            aria-label="Город"
           />
         )}
-        <span
-          style={{ textDecoration: 'underline', cursor: 'pointer', opacity: 0.7 }}
+        <button
+          type="button"
+          className="weather__edit"
           onClick={() => {
             if (editing) search(draft);
             setEditing(!editing);
             setDraft(city);
           }}
         >
-          изменить
-        </span>
+          {editing ? 'готово' : 'изменить'}
+        </button>
       </div>
     </div>
   );

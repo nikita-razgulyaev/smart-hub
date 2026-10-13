@@ -11,10 +11,14 @@ export function HistoryFactCard() {
       .catch(() => setFact(null));
   }, []);
 
+  const text = fact ? `${fact.year} год: ${fact.text}` : 'Загрузка…';
+
   return (
-    <div className="card event-card">
-      <div className="label">Сегодня в истории</div>
-      {fact ? `${fact.year} год: ${fact.text}` : 'Загрузка…'}
+    <div className="card fact">
+      <div className="text-label">Сегодня в истории</div>
+      <p className="fact__text" title={text}>
+        {text}
+      </p>
     </div>
   );
 }

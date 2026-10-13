@@ -3,6 +3,8 @@ import { useDevicesStore } from '../store/devicesStore';
 import { ROOM_IMAGES, STREET_IMAGES } from '../data/seedData';
 import { Device } from '../types';
 import { withBase } from '../utils/assetPath';
+import { Icon } from './ui/Icon';
+import { Switch } from './ui/Switch';
 
 interface Props {
   title: string;
@@ -20,27 +22,24 @@ export function CameraCard({ title, variant = 'street', roomSlug, device }: Prop
   const isOn = device ? device.isOn : true;
 
   return (
-    <div className={variant === 'street' ? 'cam-card' : 'room-preview'}>
+    <div className={`cam${variant === 'room' ? ' cam--room' : ''}`}>
       {isOn ? (
-        <img className="media-img" src={src} alt={title} />
+        <img className="cam__img" src={src} alt={title} />
       ) : (
-        <div className="cam-off">
-          <span>📷</span>
+        <div className="cam__off">
+          <Icon name="videoOff" size={28} />
           <span>Камера отключена</span>
         </div>
       )}
-      {isOn && <div className="cam-badge">LIVE</div>}
-      <div className="cam-toggle">
-        <div
-          className={`switch${isOn ? ' on' : ''}`}
-          onClick={() => device && toggle(device.id)}
-          role="button"
-          aria-label="Включить/выключить камеру"
-        >
-          <div className="dot" />
-        </div>
+      {isOn && <div className="cam__badge">LIVE</div>}
+      <div className="cam__toggle">
+        <Switch
+          checked={isOn}
+          onChange={() => device && toggle(device.id)}
+          label={`Камера: ${title}`}
+        />
       </div>
-      <div className="cam-caption">{title}</div>
+      <div className="cam__caption">{title}</div>
     </div>
   );
 }

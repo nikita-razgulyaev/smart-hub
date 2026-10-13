@@ -4,6 +4,16 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Smart Hub — Панель мониторинга</title>
+        <meta name="color-scheme" content="light dark" />
+        <script>
+            // Применяем тему до первой отрисовки, чтобы не было вспышки неправильной темы.
+            try {
+                document.documentElement.classList.toggle(
+                    "dark",
+                    localStorage.getItem("smart-hub-theme") !== "light",
+                );
+            } catch (e) {}
+        </script>
         <link rel="icon" href="/public/images/favicon.svg" />
     </head>
     <body>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NEWS_ARTICLES } from '../data/seedData';
 import { getNewsFeed, NewsFeedItem } from '../api/external';
+import { Icon } from './ui/Icon';
 
 const ROTATE_MS = 6000;
 const FADE_MS = 450;
@@ -33,18 +34,18 @@ export function NewsCard() {
   const image = isReal ? (current as NewsFeedItem).image : undefined;
 
   return (
-    <div className="card news-card-big">
-      <div className={`news-fade${visible ? ' visible' : ''}`}>
-        <div className="news-img">{image ? <img src={image} alt="" /> : '📰'}</div>
-        <div className="news-text">
-          <div className="label">Новости</div>
-          <div className="headline">{headline ?? '—'}</div>
-          {link ? (
-            <a href={link} target="_blank" rel="noopener noreferrer">
+    <div className="card card--flush news">
+      <div className={`news__fade${visible ? '' : ' news__fade--hidden'}`}>
+        <div className="news__media">
+          {image ? <img className="news__img" src={image} alt="" /> : <Icon name="newspaper" size={32} />}
+        </div>
+        <div className="news__body">
+          <div className="text-label">Новости</div>
+          <div className="news__headline">{headline ?? '—'}</div>
+          {link && (
+            <a className="news__link" href={link} target="_blank" rel="noopener noreferrer">
               Подробнее →
             </a>
-          ) : (
-            <span className="news-link-disabled">Подробнее →</span>
           )}
         </div>
       </div>

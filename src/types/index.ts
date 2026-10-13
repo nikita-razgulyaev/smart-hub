@@ -13,6 +13,8 @@ export interface WeatherInfo {
   city: string;
   temp: number;
   description: string;
+  /** Код погоды WMO — по нему подбирается иконка. */
+  code?: number;
   source?: 'open-meteo';
 }
 

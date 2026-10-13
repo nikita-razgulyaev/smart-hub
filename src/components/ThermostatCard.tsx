@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Device } from '../types';
 import { useDevicesStore } from '../store/devicesStore';
-import { withBase } from '../utils/assetPath';
+import { Icon } from './ui/Icon';
+import { Ring } from './ui/Ring';
+import { Switch } from './ui/Switch';
+
+const MIN_TARGET = 10;
+const MAX_TARGET = 30;
 
 export function ThermostatCard({ device }: { device: Device }) {
   const setState = useDevicesStore((s) => s.setState);
@@ -11,7 +16,7 @@ export function ThermostatCard({ device }: { device: Device }) {
 
   const target = Number(device.state.target ?? 22);
   const mode = String(device.state.mode ?? 'IDLE');
-  const frac = Math.min(100, Math.max(0, ((target - 10) / 20) * 100));
+  const frac = ((target - MIN_TARGET) / (MAX_TARGET - MIN_TARGET)) * 100;
 
   const prevTarget = useRef(target);
   useEffect(() => {
@@ -26,48 +31,52 @@ export function ThermostatCard({ device }: { device: Device }) {
   const changeTarget = (delta: number) => {
     if (busy) return;
     setBusy(true);
-    const next = Math.max(10, Math.min(30, target + delta));
+    const next = Math.max(MIN_TARGET, Math.min(MAX_TARGET, target + delta));
     setState(device.id, { state: { target: next } });
     setTimeout(() => setBusy(false), 150);
   };
 
-  const showBar = mode === 'HEAT' || mode === 'COOL';
-  const modeLabel = mode === 'HEAT' ? 'Нагрев' : mode === 'COOL' ? 'Охлаждение' : '';
-  const modeClass = mode === 'HEAT' ? ' mode-heat' : mode === 'COOL' ? ' mode-cool' : '';
+  const isHeating = mode === 'HEAT';
+  const isCooling = mode === 'COOL';
 
   return (
-    <div className="card thermo-card" style={{ height: '100%' }}>
-      <div className="device-top">
-        <span className="title-sm">Термостат</span>
-        <div className={`switch${device.isOn ? ' on' : ''}`} onClick={() => toggle(device.id)}>
-          <div className="dot" />
-        </div>
+    <div className="card device">
+      <div className="device__head">
+        <span className="text-title">Термостат</span>
+        <Switch checked={device.isOn} onChange={() => toggle(device.id)} label="Термостат" />
       </div>
 
-      <div className="dial" style={{ ['--frac' as string]: frac }}>
-        <div className={`dial-inner${bump ? ' bump' : ''}`}>
-          <div className="goal">Задано</div>
-          <div className="val">{target}°</div>
-        </div>
-      </div>
+      <Ring value={frac} size={156} strokeWidth={10}>
+        <span className="thermostat__goal">Задано</span>
+        <span className={`thermostat__value${bump ? ' thermostat__value--bump' : ''}`}>{target}°</span>
+      </Ring>
 
-      <div className="thermo-controls">
-        <button className="btn-round" onClick={() => changeTarget(-1)}>
-          –
+      <div className="thermostat__controls">
+        <button
+          type="button"
+          className="round-btn"
+          onClick={() => changeTarget(-1)}
+          aria-label="Уменьшить температуру"
+        >
+          <Icon name="minus" size={18} />
         </button>
-        <button className="btn-round" onClick={() => changeTarget(1)}>
-          +
+        <button
+          type="button"
+          className="round-btn"
+          onClick={() => changeTarget(1)}
+          aria-label="Увеличить температуру"
+        >
+          <Icon name="plus" size={18} />
         </button>
       </div>
 
-      <div className={`thermo-mode-bar${showBar ? ' show' : ''}${modeClass}`}>
-        <div className="thermo-mode-inner">
-          <span className="thermo-mode-icon">
-            <img className="icon-heat" src={withBase('/images/heater.png')} alt="Нагрев" />
-            <img className="icon-cool" src={withBase('/images/air-conditioner.png')} alt="Охлаждение" />
-          </span>
-          <span className="thermo-mode-text">{modeLabel}</span>
-        </div>
+      <div className={`thermostat__mode${isHeating || isCooling ? ' thermostat__mode--visible' : ''}`} aria-live="polite">
+        {(isHeating || isCooling) && (
+          <>
+            <Icon name={isHeating ? 'flame' : 'snowflake'} size={18} />
+            <span>{isHeating ? 'Нагрев' : 'Охлаждение'}</span>
+          </>
+        )}
       </div>
     </div>
   );

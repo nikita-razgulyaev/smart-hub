@@ -13,8 +13,8 @@ export default function App() {
   return (
     <>
       <div className="room-bg">
-        <img className="room-day" src={withBase('/images/day-room.png')} alt="Комната днём" />
-        <img className="room-night" src={withBase('/images/night-room.png')} alt="Комната ночью" />
+        <img className="room-bg__img room-bg__img--day" src={withBase('/images/day-room.png')} alt="Комната днём" />
+        <img className="room-bg__img room-bg__img--night" src={withBase('/images/night-room.png')} alt="Комната ночью" />
       </div>
       <DashboardPage />
     </>

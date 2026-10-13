@@ -7,14 +7,12 @@ interface Props {
 
 export function SensorCard({ title, icon, value, unit }: Props) {
   return (
-    <div className="card sensor-mini">
-      <span style={{ fontSize: 20 }}>{icon}</span>
-      <div className="val">
+    <div className="card sensors__item">
+      <span className="sensors__icon">{icon}</span>
+      <div className="sensors__value">
         {value ?? '—'} {unit}
       </div>
-      <div className="label" style={{ margin: 0 }}>
-        {title}
-      </div>
+      <div className="sensors__label">{title}</div>
     </div>
   );
 }

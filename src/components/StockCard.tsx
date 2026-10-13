@@ -1,10 +1,12 @@
 import { Stock } from '../types';
+import { formatCurrency, formatPercent } from '../utils/format';
+
+const CHART_W = 76;
+const CHART_H = 32;
 
 export function StockCard({ stock }: { stock: Stock }) {
-  const up = stock.changePct >= 0;
-  const color = up ? '#3fae94' : '#c9614f';
+  const trend = stock.changePct >= 0 ? 'up' : 'down';
   const gradId = `grad-${stock.ticker}`;
-  const suffix = stock.currency === 'RUB' ? '₽' : '$';
 
   const points = stock.prices.length > 1 ? stock.prices : [stock.latest, stock.latest, stock.latest];
   const min = Math.min(...points);
@@ -12,36 +14,33 @@ export function StockCard({ stock }: { stock: Stock }) {
   const range = max - min || 1;
 
   const coords = points.map((p, i) => ({
-    x: (i / (points.length - 1)) * 76,
-    y: 28 - ((p - min) / range) * 24 + 2,
+    x: (i / (points.length - 1)) * CHART_W,
+    y: CHART_H - 4 - ((p - min) / range) * (CHART_H - 8),
   }));
 
   const polylinePoints = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ');
-  const polygonPoints = `${polylinePoints} 76,32 0,32`;
+  const polygonPoints = `${polylinePoints} ${CHART_W},${CHART_H} 0,${CHART_H}`;
   const last = coords[coords.length - 1];
 
   return (
-    <div className="card stock-card">
+    <div className="card stock">
       <div>
-        <div className="name">{stock.ticker}</div>
-        <div className="label" style={{ margin: 0 }}>
-          {suffix}
-          {stock.latest?.toFixed(2)} <span className={up ? 'up' : 'down'}>
-            {up ? '+' : ''}
-            {stock.changePct}%
-          </span>
+        <div className="stock__ticker">{stock.ticker}</div>
+        <div className="stock__price">
+          <span>{formatCurrency(stock.latest, stock.currency)}</span>
+          <span className={`delta--${trend}`}>{formatPercent(stock.changePct)}</span>
         </div>
       </div>
-      <svg width="76" height="32" viewBox="0 0 76 32">
+      <svg className="stock__chart" width={CHART_W} height={CHART_H} viewBox={`0 0 ${CHART_W} ${CHART_H}`} aria-hidden="true">
         <defs>
           <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.35" />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
+            <stop className={`stock__stop--${trend}`} offset="0%" stopOpacity="0.3" />
+            <stop className={`stock__stop--${trend}`} offset="100%" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <polyline points={polylinePoints} fill="none" stroke={color} strokeWidth="1.8" />
         <polygon points={polygonPoints} fill={`url(#${gradId})`} />
-        <circle cx={last.x} cy={last.y} r="2.4" fill={color} />
+        <polyline className={`stock__line stock__line--${trend}`} points={polylinePoints} />
+        <circle className={`stock__dot--${trend}`} cx={last.x} cy={last.y} r="2.4" />
       </svg>
     </div>
   );

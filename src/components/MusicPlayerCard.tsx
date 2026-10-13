@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useMusicStore } from '../store/musicStore';
 import { MUSIC_TRACKS } from '../data/seedData';
 import { withBase } from '../utils/assetPath';
+import { Icon } from './ui/Icon';
+import { Slider } from './ui/Slider';
 
 const DEFAULT_VOLUME = 0.3;
 const INITIAL_FADE_START = 0.1;
@@ -161,52 +163,59 @@ export function MusicPlayerCard({ roomId }: { roomId: string }) {
   const showCover = track?.coverUrl && !coverMissing;
 
   return (
-    <div className="card music-card">
-      <div className="music-art">
+    <div className="card music">
+      <div className="music__art">
         {showCover ? (
-          <img src={withBase(track!.coverUrl!)} alt={track?.title ?? ''} onError={() => setCoverMissing(true)} />
+          <img className="music__art-img" src={withBase(track!.coverUrl!)} alt={track?.title ?? ''} onError={() => setCoverMissing(true)} />
         ) : (
-          '🎵'
+          <Icon name="volume" size={22} />
         )}
       </div>
-      <div className="music-info">
-        <div className="t">{track?.title ?? '—'}</div>
-        <div className="a">{track?.artist}</div>
+      <div className="music__info">
+        <div className="music__title">{track?.title ?? '—'}</div>
+        <div className="music__artist">{track?.artist}</div>
       </div>
-      <div className="music-progress">
-        <span className="time">{formatTime(position)}</span>
-        <input
-          type="range"
-          min={0}
-          max={dur || 0}
-          step={1}
+
+      <div className="music__progress">
+        <span className="music__time">{formatTime(position)}</span>
+        <Slider
           value={Math.min(position, dur || 0)}
+          max={dur || 0}
+          label="Позиция в треке"
+          onChange={handleSeek}
           onPointerDown={() => setIsSeeking(true)}
           onPointerUp={() => setIsSeeking(false)}
-          onChange={(e) => handleSeek(Number(e.target.value))}
         />
-        <span className="time">{formatTime(dur)}</span>
+        <span className="music__time music__time--end">{formatTime(dur)}</span>
       </div>
 
-      <div className="music-bottom-row">
-        <div className="music-controls">
-          <button onClick={() => changeTrack(() => prev(roomId))}>⏮</button>
-          <button className="play" onClick={() => (player.isPlaying ? pause(roomId) : play(roomId))}>
-            {player.isPlaying ? '⏸' : '▶'}
+      <div className="music__bar">
+        <div className="music__controls">
+          <button type="button" className="music__btn" aria-label="Предыдущий трек" onClick={() => changeTrack(() => prev(roomId))}>
+            <Icon name="skipBack" size={18} />
           </button>
-          <button onClick={() => changeTrack(() => next(roomId))}>⏭</button>
+          <button
+            type="button"
+            className="music__btn music__btn--play"
+            aria-label={player.isPlaying ? 'Пауза' : 'Воспроизвести'}
+            onClick={() => (player.isPlaying ? pause(roomId) : play(roomId))}
+          >
+            <Icon name={player.isPlaying ? 'pause' : 'play'} size={20} />
+          </button>
+          <button type="button" className="music__btn" aria-label="Следующий трек" onClick={() => changeTrack(() => next(roomId))}>
+            <Icon name="skipForward" size={18} />
+          </button>
         </div>
 
-        <div className="music-volume">
-          <span className="icon" onClick={toggleMute} role="button" aria-label="Выключить/включить звук">
-            {volume === 0 ? '🔇' : '🔉'}
-          </span>
-          <input
-            type="range"
-            min={0}
-            max={100}
+        <div className="music__volume">
+          <button type="button" className="music__mute" onClick={toggleMute} aria-label="Выключить/включить звук">
+            <Icon name={volume === 0 ? 'volumeOff' : 'volume'} size={18} />
+          </button>
+          <Slider
             value={Math.round(volume * 100)}
-            onChange={(e) => handleVolumeChange(Number(e.target.value) / 100)}
+            max={100}
+            label="Громкость"
+            onChange={(value) => handleVolumeChange(value / 100)}
           />
         </div>
       </div>

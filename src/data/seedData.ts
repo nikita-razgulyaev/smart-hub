@@ -219,11 +219,12 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     },
 ];
 
+// Плеер при заходе на страницу стоит на паузе — воспроизведение запускает пользователь.
 export const INITIAL_PLAYER_STATE = {
     roomId: "living-room",
     trackId: "track-1",
     positionSec: 96,
-    isPlaying: true,
+    isPlaying: false,
 };
 
 function lastNDays(values: number[]): EnergyReading[] {

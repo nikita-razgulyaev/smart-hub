@@ -14,6 +14,7 @@ import { DateTimeCard } from '../components/DateTimeCard';
 import { HistoryFactCard } from '../components/HistoryFactCard';
 import { NewsCard } from '../components/NewsCard';
 import { StockCard } from '../components/StockCard';
+import { Icon } from '../components/ui/Icon';
 import { useSimulation } from '../hooks/useSimulation';
 import { useSensorsStore } from '../store/sensorsStore';
 import { useDevicesStore } from '../store/devicesStore';
@@ -60,63 +61,66 @@ export function DashboardPage() {
     <>
       <Header />
 
-      <div className="layout">
+      <main className="layout">
         {/* LEFT COLUMN */}
-        <div className="col-left">
+        <div className="layout__main">
           {/* STREET */}
-          <div className="section">
-            <div className="section-title">Улица</div>
-            <div className="street-grid">
+          <section className="panel">
+            <h2 className="panel__title">Улица</h2>
+            <div className="street">
               {streetCamera && (
                 <CameraCard title="Камера наблюдения на улице" variant="street" device={streetCamera} />
               )}
 
-              <div className="weather-col">
+              <div className="street__aside">
                 <WeatherCard />
-                <div className="mini-row3">
+                <div className="tile-row">
                   {streetToggles.map((d) => (
                     <ToggleMiniCard key={d.id} device={d} />
                   ))}
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* HOME */}
-          <div className="section">
-            <div className="section-title">Дом</div>
+          <section className="panel">
+            <h2 className="panel__title">Дом</h2>
             <RoomTabs rooms={ROOMS} activeId={activeRoomId} onSelect={setActiveRoomId} />
 
-            <div className="home-grid">
-              <div className="home-left">
+            <div className="home">
+              <div className="home__main">
                 {activeRoom && (
                   <CameraCard title={activeRoom.name} variant="room" roomSlug={activeRoom.slug} device={roomCamera} />
                 )}
 
                 <MusicPlayerCard roomId={HOME_ROOM_ID} />
 
-                <div className="card sensor-combo">
-                  <div className="sensor-seg">
-                    <div className="val">
+                <div className="card sensors">
+                  <div className="sensors__item">
+                    <Icon className="sensors__icon" name="thermometer" size={18} />
+                    <div className="sensors__value">
                       {latest.TEMPERATURE?.value !== undefined ? `${latest.TEMPERATURE.value}°` : '—'}
                     </div>
-                    <div className="label">Температура</div>
+                    <div className="sensors__label">Температура</div>
                   </div>
-                  <div className="sensor-seg">
-                    <div className="val">
+                  <div className="sensors__item">
+                    <Icon className="sensors__icon" name="droplet" size={18} />
+                    <div className="sensors__value">
                       {latest.HUMIDITY?.value !== undefined ? `${latest.HUMIDITY.value}%` : '—'}
                     </div>
-                    <div className="label">Влажность</div>
+                    <div className="sensors__label">Влажность</div>
                   </div>
-                  <div className="sensor-seg">
-                    <div className="val">
+                  <div className="sensors__item">
+                    <Icon className="sensors__icon" name="wind" size={18} />
+                    <div className="sensors__value">
                       {latest.AIR_QUALITY?.value !== undefined ? airQualityLabel(latest.AIR_QUALITY.value) : '—'}
                     </div>
-                    <div className="label">Качество воздуха</div>
+                    <div className="sensors__label">Качество воздуха</div>
                   </div>
                 </div>
 
-                <div className="sensor-row3">
+                <div className="tile-row">
                   {toggles.map((d) => (
                     <ToggleMiniCard key={d.id} device={d} />
                   ))}
@@ -124,26 +128,26 @@ export function DashboardPage() {
               </div>
 
               {thermostat && (
-                <div className="device-col" style={{ gridColumn: 2, gridRow: 1 }}>
+                <div className="home__thermostat">
                   <ThermostatCard device={thermostat} />
                 </div>
               )}
 
               {light && (
-                <div className="device-col" style={{ gridColumn: 3, gridRow: 1 }}>
+                <div className="home__light">
                   <LightCard device={light} />
                 </div>
               )}
 
-              <div className="energy-card" style={{ gridColumn: '2 / 4', gridRow: 2 }}>
+              <div className="home__energy">
                 <EnergyChartCard />
               </div>
             </div>
-          </div>
+          </section>
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="col-right section">
+        <aside className="panel panel--side">
           <DateTimeCard />
           <HistoryFactCard />
           <NewsCard />
@@ -151,8 +155,8 @@ export function DashboardPage() {
           {stocks.map((s) => (
             <StockCard key={s.id} stock={s} />
           ))}
-        </div>
-      </div>
+        </aside>
+      </main>
 
       <AlertBanner />
     </>

@@ -23,20 +23,15 @@ export function DateTimeCard() {
   day = day.charAt(0).toUpperCase() + day.slice(1);
 
   return (
-    <div className="card datetime-card">
+    <div className="card datetime">
       <div>
-        <div className="day">{day}</div>
-        <div className="date">{date}</div>
+        <div className="datetime__day">{day}</div>
+        <div className="datetime__date">{date}</div>
         {status && (
-          <div
-            className="label"
-            style={{ marginTop: 6, color: status.isDayOff ? 'var(--accent-2)' : 'var(--ink-soft)' }}
-          >
-            {status.label}
-          </div>
+          <div className={`datetime__status${status.isDayOff ? ' datetime__status--off' : ''}`}>{status.label}</div>
         )}
       </div>
-      <div className="time">{time}</div>
+      <div className="datetime__time">{time}</div>
     </div>
   );
 }
