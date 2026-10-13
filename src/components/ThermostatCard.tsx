@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Device } from '../types';
 import { useDevicesStore } from '../store/devicesStore';
+import { withBase } from '../utils/assetPath';
 import { Icon } from './ui/Icon';
 import { Ring } from './ui/Ring';
 import { Switch } from './ui/Switch';
@@ -73,7 +74,11 @@ export function ThermostatCard({ device }: { device: Device }) {
       <div className={`thermostat__mode${isHeating || isCooling ? ' thermostat__mode--visible' : ''}`} aria-live="polite">
         {(isHeating || isCooling) && (
           <>
-            <Icon name={isHeating ? 'flame' : 'snowflake'} size={18} />
+            <img
+              className="thermostat__mode-img"
+              src={withBase(isHeating ? '/images/heater.png' : '/images/air-conditioner.png')}
+              alt=""
+            />
             <span>{isHeating ? 'Нагрев' : 'Охлаждение'}</span>
           </>
         )}

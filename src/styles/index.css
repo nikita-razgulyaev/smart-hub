@@ -87,7 +87,8 @@ html {
     --tooltip-ink: #ffffff;
 
     --shadow-panel: 0 10px 30px rgba(24, 28, 36, 0.1);
-    --shadow-card: 0 1px 2px rgba(24, 28, 36, 0.05), 0 4px 12px rgba(24, 28, 36, 0.05);
+    --shadow-card:
+        0 1px 2px rgba(24, 28, 36, 0.05), 0 4px 12px rgba(24, 28, 36, 0.05);
 }
 
 html.dark {
@@ -962,12 +963,20 @@ html.dark .theme-toggle__icon--moon {
     margin-top: var(--space-3);
     font-size: var(--fs-sm);
     font-weight: 600;
-    color: var(--accent-strong);
+    color: var(--ink);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 .thermostat__mode--visible {
     opacity: 1;
+}
+.thermostat__mode-img {
+    width: auto;
+    height: 25px;
+    object-fit: contain;
+    /* Картинки светлые — тонкий контур, чтобы не терялись на светлой теме. */
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5))
+        drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25));
 }
 
 .light__stage {
@@ -986,7 +995,8 @@ html.dark .theme-toggle__icon--moon {
     filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.3));
 }
 html.dark .light__lamp {
-    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+        drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
 }
 .light__cone {
     position: absolute;
@@ -1139,7 +1149,11 @@ html.dark .light__lamp {
     min-height: 120px;
     place-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--accent-soft), var(--surface-inset));
+    background: linear-gradient(
+        135deg,
+        var(--accent-soft),
+        var(--surface-inset)
+    );
     color: var(--accent-strong);
 }
 .news__img {
