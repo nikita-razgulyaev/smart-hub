@@ -5,8 +5,8 @@
 Имя файла должно совпадать с `audioUrl` в `src/data/seedData.ts` (массив `MUSIC_TRACKS`).
 
 Например, для трека по умолчанию нужен файл `track-1.mp3` — он должен лежать
-прямо в этой папке (`frontend/public/audio/track-1.mp3`), тогда в браузере
+прямо в этой папке (`public/audio/track-1.mp3`), тогда в браузере
 он будет доступен по пути `/audio/track-1.mp3`.
 
-Обложка для трека кладётся в `frontend/public/images/` (см. README там же)
-и указывается в `coverUrl` того же трека.
+Обложка для трека кладётся в `public/images/` и указывается в `coverUrl`
+того же трека (например, `/images/track-1.png`).
