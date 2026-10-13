@@ -15,7 +15,7 @@ export interface WeatherInfo {
   description: string;
   /** Код погоды WMO — по нему подбирается иконка. */
   code?: number;
-  source?: 'open-meteo';
+  source?: 'wttr.in' | 'open-meteo' | 'met.no';
 }
 
 export interface CurrencyRates {

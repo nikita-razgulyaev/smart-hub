@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getWeather } from '../api/external';
+import { getWeather } from '../api/weather';
 import { WeatherInfo } from '../types';
 import { weatherIconName } from '../utils/weatherIcon';
 import { Icon } from './ui/Icon';

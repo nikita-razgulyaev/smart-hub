@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { WeatherInfo, CurrencyRates, HistoryFact, DayStatus } from '../types';
+import { CurrencyRates, HistoryFact, DayStatus } from '../types';
 
 /**
  * Все функции в этом файле — прямые вызовы бесплатных публичных API из
@@ -8,67 +8,6 @@ import { WeatherInfo, CurrencyRates, HistoryFact, DayStatus } from '../types';
  * локальный fallback", что была на бэкенде, чтобы сбой одного провайдера не
  * ронял виджет.
  */
-
-const WMO_CODES: Record<number, string> = {
-  0: 'ясно',
-  1: 'преимущественно ясно',
-  2: 'переменная облачность',
-  3: 'пасмурно',
-  45: 'туман',
-  48: 'изморозь',
-  51: 'лёгкая морось',
-  53: 'морось',
-  55: 'сильная морось',
-  61: 'небольшой дождь',
-  63: 'дождь',
-  65: 'сильный дождь',
-  71: 'небольшой снег',
-  73: 'снег',
-  75: 'сильный снег',
-  80: 'ливень',
-  81: 'сильный ливень',
-  82: 'очень сильный ливень',
-  95: 'гроза',
-};
-
-export async function getWeather(city: string): Promise<WeatherInfo> {
-  try {
-    return await fetchWeather(city);
-  } catch {
-    // одна попытка повторить — открытые API иногда отвечают с перебоями
-    return await fetchWeather(city);
-  }
-}
-
-async function fetchWeather(city: string): Promise<WeatherInfo> {
-  const geo = await axios.get('https://geocoding-api.open-meteo.com/v1/search', {
-    params: { name: city, count: 1, language: 'ru', format: 'json' },
-    timeout: 8000,
-  });
-
-  const place = geo.data?.results?.[0];
-  if (!place) throw new Error(`Город "${city}" не найден`);
-
-  const { data } = await axios.get('https://api.open-meteo.com/v1/forecast', {
-    params: {
-      latitude: place.latitude,
-      longitude: place.longitude,
-      current: 'temperature_2m,weather_code',
-      timezone: 'auto',
-    },
-    timeout: 8000,
-  });
-
-  const code = data.current?.weather_code as number;
-
-  return {
-    city: place.name,
-    temp: Math.round(data.current?.temperature_2m),
-    description: WMO_CODES[code] ?? '',
-    code,
-    source: 'open-meteo',
-  };
-}
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
